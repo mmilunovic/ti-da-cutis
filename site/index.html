@@ -4,116 +4,131 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ti da ćutiš ti si...</title>
-<meta name="description" content="Dodatak za Chrome koji ućutka izabrane poslanike dok gledaš Skupštinu na YouTube-u. Kad oni uzmu reč, ti slušaš muziku.">
+<meta name="description" content="Dodatak za Chrome koji ućutka izabrane poslanike dok gledaš Skupštinu na YouTube-u.">
 <meta property="og:title" content="Ti da ćutiš ti si...">
-<meta property="og:description" content="Gledaj Skupštinu bez onih koje ne želiš da slušaš.">
-<meta property="og:image" content="https://tidacutis.rs/header.png">
+<meta property="og:description" content="Gledaj Skupštinu. Kad oni uzmu reč, ti slušaš muziku.">
 <link rel="icon" href="favicon.png">
 <style>
   :root {
-    --bg: #faf7f2; --card: #ffffff; --ink: #2c2c2a; --muted: #6b6a64; --line: #e6e1d6;
-    --accent: #b0164f; --accent-ink: #ffffff; --accent-soft: #fbeaf0; --gold: #8a6a1f;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --bg: #ffffff; --ink: #111110; --muted: #6f6e69; --faint: #a3a29c; --line: #ececea;
+    --soft: #f6f6f4; --accent: #b0164f;
+    --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #1d1c1a; --card: #262522; --ink: #f1efe8; --muted: #b4b2a9; --line: #3a3934;
-            --accent: #e0457f; --accent-soft: #3a1f2a; --gold: #d8b25a; }
+    :root { --bg: #111110; --ink: #f2f1ee; --muted: #9e9d97; --faint: #6f6e69; --line: #262624; --soft: #1b1b1a; --accent: #ec5f92; }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.65 var(--sans); }
-  main { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
-  h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.01em; }
-  h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.1; margin: 28px 0 12px; }
-  h2 { font-size: 26px; margin: 56px 0 16px; }
-  p { margin: 0 0 14px; }
-  .hero { text-align: center; }
-  .hero img.meme { width: min(380px, 80vw); border-radius: 14px; display: block; margin: 0 auto; }
-  .lead { font-size: 20px; color: var(--muted); max-width: 560px; margin: 0 auto 28px; }
-  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: var(--accent-ink);
-         text-decoration: none; font-weight: 600; font-size: 19px; padding: 16px 28px; border-radius: 12px; }
-  .btn:hover { filter: brightness(1.08); }
-  .btn img { width: 26px; height: 26px; background: #fff; border-radius: 6px; padding: 2px; }
-  .small { font-size: 14px; color: var(--muted); margin-top: 12px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 28px 0 6px; }
-  .chip { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 15px; }
-  .chip.soon { background: transparent; border: 1px dashed var(--line); color: var(--muted); font-weight: 500; }
-  ol.steps { list-style: none; padding: 0; margin: 0; counter-reset: s; display: grid; gap: 12px; }
-  ol.steps li { counter-increment: s; background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-                padding: 16px 18px 16px 64px; position: relative; }
-  ol.steps li::before { content: counter(s); position: absolute; left: 18px; top: 15px; width: 30px; height: 30px;
-                        border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 700;
-                        display: flex; align-items: center; justify-content: center; font-size: 15px; }
-  ol.steps b { font-weight: 600; }
-  code { white-space: nowrap; font-family: ui-monospace, Menlo, monospace; font-size: 0.92em; background: var(--accent-soft); color: var(--accent);
-         padding: 1px 6px; border-radius: 6px; }
-  .copy { margin-left: 6px; font: 600 13px var(--sans); border: 1px solid var(--line); background: var(--bg); color: var(--ink);
-          border-radius: 8px; padding: 3px 9px; cursor: pointer; }
-  .note { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 0;
-          padding: 12px 16px; margin: 20px 0 0; color: var(--muted); font-size: 15px; }
-  ul.tips { padding-left: 20px; color: var(--muted); }
-  ul.tips li { margin-bottom: 6px; }
-  footer { border-top: 1px solid var(--line); margin-top: 64px; padding-top: 20px; font-size: 14px; color: var(--muted); text-align: center; }
-  footer a { color: var(--muted); }
-  .mobile-only { display: none; }
-  @media (max-width: 700px) { .mobile-only { display: block; } }
+  html { -webkit-font-smoothing: antialiased; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.7 var(--font); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--ink); text-decoration: none; }
+  .brand img { width: 24px; height: 24px; }
+  nav a.gh { color: var(--muted); font-size: 15px; text-decoration: none; }
+  nav a.gh:hover { color: var(--ink); }
+
+  header { padding: 72px 0 56px; }
+  .kicker { font-size: 14px; color: var(--muted); margin: 0 0 14px; }
+  h1 { font-size: clamp(36px, 7vw, 54px); line-height: 1.08; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 20px; }
+  .lead { font-size: 20px; line-height: 1.6; color: var(--muted); margin: 0 0 36px; max-width: 34em; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .btn { display: inline-block; background: var(--ink); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 16px;
+         padding: 13px 22px; border-radius: 10px; }
+  .btn:hover { opacity: .86; }
+  .link { color: var(--ink); font-size: 16px; text-decoration: none; border-bottom: 1px solid var(--line); }
+  .link:hover { border-color: var(--ink); }
+  .meta { font-size: 14px; color: var(--faint); margin: 18px 0 0; }
+
+  .who { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; font-size: 15px; color: var(--muted); }
+  .who strong { color: var(--ink); font-weight: 600; }
+
+  section { padding: 56px 0 8px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 600; margin: 0 0 22px; }
+  ol { list-style: none; counter-reset: n; padding: 0; margin: 0; }
+  ol li { counter-increment: n; display: grid; grid-template-columns: 34px 1fr; padding: 0 0 18px; }
+  ol li::before { content: counter(n, decimal-leading-zero); font: 500 13px/2.1 var(--mono); color: var(--faint); }
+  p { margin: 0 0 16px; }
+  .muted { color: var(--muted); }
+  code { font: 14px var(--mono); background: var(--soft); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+  button.copy { font: 500 12px var(--font); color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px;
+                padding: 1px 8px; margin-left: 6px; cursor: pointer; vertical-align: 1px; }
+  button.copy:hover { color: var(--ink); }
+  ul { padding-left: 18px; margin: 4px 0 0; color: var(--muted); }
+  ul li { margin-bottom: 6px; }
+  .phone { display: none; background: var(--soft); border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--muted); margin-top: 20px; }
+  @media (max-width: 720px) { .phone { display: block; } header { padding: 40px 0 40px; } }
+
+  footer { margin: 72px 0 0; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint);
+           display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
 </style>
 </head>
 <body>
-<main>
-  <section class="hero">
-    <img class="meme" src="header.png" alt="Ти ћути. Ти си курва.">
-    <h1>Ti da ćutiš ti si...</h1>
-    <p class="lead">Dodatak za Chrome koji ućutka izabrane poslanike dok gledaš Skupštinu na YouTube-u. Kad oni uzmu reč, ti slušaš muziku.</p>
-    <a class="btn" href="ti-da-cutis.zip" download><img src="icon.png" alt="">Preuzmi dodatak</a>
-    <p class="small">Za Chrome na računaru · 29 MB · besplatno<br>Poslato u Chrome Web Store, dok ga ne odobre instalira se ručno, za minut.</p>
-    <p class="note mobile-only">Dodaci za Chrome ne rade na telefonu. Otvori ovu stranicu na računaru.</p>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="./"><img src="icon.png" alt="">Ti da ćutiš ti si...</a>
+    <a class="gh" href="https://github.com/mmilunovic/ti-da-cutis">GitHub</a>
+  </nav>
 
-    <div class="chips">
-      <span class="chip">Aleksandar Vučić</span>
-      <span class="chip">Ana Brnabić</span>
-      <span class="chip">Milenko Jovanov</span>
+  <header>
+    <p class="kicker">Dodatak za Chrome</p>
+    <h1>Gledaj Skupštinu.<br>Bez njih.</h1>
+    <p class="lead">Kad neko od izabranih poslanika uzme reč, dodatak ga prepozna po glasu i umesto njega ti pusti muziku. Kad završi, vraćaš se na prenos.</p>
+    <div class="actions">
+      <a class="btn" href="ti-da-cutis.zip" download>Preuzmi dodatak</a>
+      <a class="link" href="#instalacija">Kako se instalira</a>
     </div>
-    <div class="chips" style="margin-top:4px">
-      <span class="chip soon">uskoro: Vojislav Šešelj</span>
-      <span class="chip soon">Nebojša Bakarec</span>
-      <span class="chip soon">Marijan Rističević</span>
-    </div>
+    <p class="meta">Besplatno · Chrome na računaru · 29 MB · uskoro u Chrome Web Store-u</p>
+    <p class="phone">Dodaci za Chrome ne rade na telefonu. Otvori ovu stranicu na računaru.</p>
+  </header>
+
+  <div class="who">
+    Prepoznaje <strong>Aleksandra Vučića</strong>, <strong>Anu Brnabić</strong> i <strong>Milenka Jovanova</strong>.
+    Uskoro i Vojislava Šešelja, Nebojšu Bakareca, Marijana Rističevića i druge.
+  </div>
+
+  <section id="instalacija">
+    <h2>Instalacija</h2>
+    <p class="muted">Dodatak čeka odobrenje u Chrome Web Store-u. Do tada se instalira ručno, za minut.</p>
+    <ol>
+      <li><span>Preuzmi dodatak i raspakuj preuzeti fajl. Dobićeš folder <code>ti-da-cutis</code>.</span></li>
+      <li><span>U Chrome-u otvori <code>chrome://extensions</code><button class="copy" data-copy="chrome://extensions">Kopiraj</button> i gore desno uključi <strong>Developer mode</strong>.</span></li>
+      <li><span>Klikni <strong>Load unpacked</strong> gore levo i izaberi folder <code>ti-da-cutis</code>.</span></li>
+      <li><span>Klikni slagalicu pored polja za adresu i zakači dodatak da ti bude pri ruci.</span></li>
+    </ol>
   </section>
 
-  <h2>Instalacija</h2>
-  <ol class="steps">
-    <li><b>Preuzmi i raspakuj.</b> Klikni „Preuzmi dodatak“ gore, pa raspakuj preuzeti fajl. Dobićeš folder <code>ti-da-cutis</code>.</li>
-    <li><b>Otvori dodatke u Chrome-u.</b> U polje za adresu ukucaj <code>chrome://extensions</code><button class="copy" data-copy="chrome://extensions">Kopiraj</button> i pritisni Enter. Gore desno uključi <b>Developer mode</b> (Režim za programere).</li>
-    <li><b>Klikni „Load unpacked“</b> (Učitaj raspakovano) gore levo i izaberi folder <code>ti-da-cutis</code>.</li>
-    <li><b>Zakači ikonicu.</b> Klikni slagalicu pored polja za adresu i zakači „Ti da ćutiš ti si...“ da ti bude pri ruci.</li>
-  </ol>
+  <section>
+    <h2>Kako se koristi</h2>
+    <ol>
+      <li><span>Otvori prenos Skupštine na YouTube-u.</span></li>
+      <li><span>Klikni ikonicu dodatka i nalepi link pesme sa YouTube-a.</span></li>
+      <li><span>Klikni <strong>Start on this tab</strong>.</span></li>
+    </ol>
+    <ul>
+      <li>Prve 2–3 sekunde ćeš ih ipak čuti, toliko treba da se prepozna ko priča.</li>
+      <li>Kratka dobacivanja iz klupe ne prekida, samo pravo izlaganje.</li>
+      <li>Ako Chrome ne pusti muziku sam, klikni jednom u kartici sa pesmom.</li>
+    </ul>
+  </section>
 
-  <h2>Kako se koristi</h2>
-  <ol class="steps">
-    <li>Otvori prenos Skupštine na YouTube-u i pusti ga.</li>
-    <li>Klikni ikonicu sa prekriženim usnama i nalepi link pesme sa YouTube-a koju želiš da slušaš umesto njih.</li>
-    <li>Klikni zeleno dugme <b>Start on this tab</b>. To je sve.</li>
-  </ol>
-  <p style="margin-top:18px">Kad neko sa liste priča duže od par sekundi, otvoriće se tvoja pesma i sviraće u krug. Kad on završi, pesma staje i vraćaš se na prenos.</p>
-  <ul class="tips">
-    <li>Prve 2–3 sekunde ćeš ih ipak čuti, toliko treba da se prepozna ko priča.</li>
-    <li>Kratka dobacivanja iz klupe ne prekida, samo pravo izlaganje.</li>
-    <li>Ako Chrome ne pusti muziku sam, u kartici sa pesmom klikni bilo gde i dalje radi samo.</li>
-  </ul>
-
-  <h2>Kako radi</h2>
-  <p>Dodatak sluša zvuk iz kartice sa prenosom i svakih pola sekunde pravi „otisak glasa“, nešto kao otisak prsta, samo za glas. Uporedi ga sa otiscima poslanika sa liste i kad se poklapa oko dve sekunde zaredom, pusti muziku.</p>
-  <p>Sve se dešava u tvom pretraživaču. Zvuk ne napušta tvoj računar i ništa se ne šalje na internet. Ponekad može da se zabuni i ućutka nekog ko ima sličan glas.</p>
+  <section>
+    <h2>Kako radi</h2>
+    <p>Svakih pola sekunde dodatak od poslednjeg delića govora napravi otisak glasa i uporedi ga sa otiscima poslanika sa liste. Kad se poklapa oko dve sekunde zaredom, pušta muziku. Kad progovori neko drugi, muzika staje.</p>
+    <p class="muted">Sve se dešava u tvom pretraživaču i ništa se ne šalje na internet. Ponekad može da se zabuni i ućutka nekog sa sličnim glasom.</p>
+  </section>
 
   <footer>
-    Kod je otvoren: <a href="https://github.com/mmilunovic/ti-da-cutis">github.com/mmilunovic/ti-da-cutis</a>
+    <span>Ti da ćutiš ti si...</span>
+    <a href="https://github.com/mmilunovic/ti-da-cutis">Otvoren kod na GitHub-u</a>
   </footer>
-</main>
+</div>
 <script>
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Kopirano"; }
-    catch { b.textContent = "Ne može"; }
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Kopirano"; } catch { b.textContent = "Ne može"; }
     setTimeout(() => (b.textContent = "Kopiraj"), 1500);
   }));
 </script>

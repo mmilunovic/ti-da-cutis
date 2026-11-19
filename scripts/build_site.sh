@@ -4,7 +4,6 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 rm -rf site-build && mkdir -p site-build/tmp/ti-da-cutis
 cp site/index.html site-build/
-cp docs/header.png site-build/header.png
 cp extension/dist/icons/icon128.png site-build/icon.png
 cp extension/dist/icons/icon32.png site-build/favicon.png
 cp -r extension/dist/. site-build/tmp/ti-da-cutis/
