@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/header.png" alt="Ти ћути. Ти си курва." width="420"></p>
+
 # Ti da ćutiš ti si...
 
 A Chrome extension for watching Serbian National Assembly sessions on YouTube. It recognizes chosen MPs by their voice and plays music while they talk. Everyone else stays audible.
@@ -57,6 +59,10 @@ cd extension
 npm test          # mute logic, Python/TypeScript feature parity, replay on real clips (needs data/clips)
 npm run smoke     # loads the built extension in headless Chrome
 ```
+
+## Credits
+
+Header image: meme on Paja Jovanović's painting *The Proclamation of Dušan's Code* (1900), public domain.
 
 ## Note on the data
 
