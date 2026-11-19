@@ -2,13 +2,15 @@
 
 # Ti da ćutiš ti si...
 
+**[tidacutis.rs](https://tidacutis.rs)**
+
 Dodatak za Chrome za sve koji gledaju prenos Skupštine na YouTube-u, a ne žele da slušaju baš svakoga. Kad neko od izabranih poslanika uzme reč, dodatak ga prepozna po glasu i umesto njega ti pusti muziku po izboru. Kad on završi, vraća te na prenos i nastavljaš da gledaš kao da ništa nije bilo.
 
 Trenutno prepoznaje: **Aleksandra Vučića, Anu Brnabić i Milenka Jovanova.**
 
 ## Instalacija
 
-Poslao sam dodatak u Chrome Web Store. Kad ga odobre, instalacija će biti jedan klik, a link će stajati ovde.
+Najlakše je preuzeti dodatak sa [tidacutis.rs](https://tidacutis.rs). Poslao sam dodatak u Chrome Web Store. Kad ga odobre, instalacija će biti jedan klik, a link će stajati ovde.
 
 Do tada ga možeš instalirati ručno, za minut:
 
