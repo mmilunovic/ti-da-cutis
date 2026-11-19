@@ -117,14 +117,12 @@
   .pin { width: 22px; height: 22px; display: grid; place-items: center; color: var(--ui-sub); flex: none; }
   .pin svg { width: 14px; height: 14px; }
 
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 44px; }
-  ol.plain { list-style: none; counter-reset: n; padding: 0; margin: 0 0 10px; }
-  ol.plain li { counter-increment: n; display: grid; grid-template-columns: 28px 1fr; padding: 0 0 8px; }
-  ol.plain li::before { content: counter(n, decimal-leading-zero); font: 500 12px/2 var(--mono); color: var(--faint); }
-  ul.tips { padding-left: 18px; margin: 0; color: var(--muted); font-size: 14px; }
-  ul.tips li { margin-bottom: 4px; }
-  .two p { margin: 0 0 10px; }
-  .muted { color: var(--muted); font-size: 14px; }
+  .lead s { text-decoration-thickness: 2px; text-decoration-color: var(--accent); color: var(--faint); }
+  .use { margin-top: 26px; }
+  .use h3 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+  ol.userow { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  ol.userow li { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.45; }
+  ol.userow li span { display: block; font: 500 12px var(--mono); color: var(--faint); margin-bottom: 4px; }
 
   footer { margin: 48px 0 0; padding: 22px 0 36px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint);
            display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -133,7 +131,7 @@
 
   @media (max-width: 900px) {
     header { grid-template-columns: 1fr; gap: 24px; padding-top: 24px; }
-    .two { grid-template-columns: 1fr; gap: 32px; }
+    ol.userow { grid-template-columns: 1fr 1fr; }
     .steps { grid-template-columns: repeat(4, 80%); overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 12px; }
     .step { scroll-snap-align: start; }
   }
@@ -154,9 +152,8 @@
 
   <header>
     <div>
-      <p class="kicker">Dodatak za Chrome</p>
       <h1>Gledaj Skupštinu.<br>Bez njih.</h1>
-      <p class="lead">Kad neko od izabranih poslanika uzme reč, dodatak ga prepozna po glasu i umesto njega ti pusti muziku. Kad završi, vraćaš se na prenos.</p>
+      <p class="lead">Kad neko od izabranih <s>poslanika</s> nepomenika dobije reč, ekstenzija mu prepozna glas i umesto njega ti pusti muziku, a kad završi, vraćaš se na prenos.</p>
     </div>
     <div class="cta">
       <a class="btn" href="ti-da-cutis.zip" download>Preuzmi dodatak</a>
@@ -218,27 +215,18 @@
         <p>Klikni slagalicu pored adrese, pa čiodu.</p>
       </div>
     </div>
-  </section>
 
-  <div class="two">
-    <section>
-      <div class="sechead"><h2>Kako se koristi</h2></div>
-      <ol class="plain">
-        <li><span>Otvori prenos Skupštine na YouTube-u.</span></li>
-        <li><span>Klikni ikonicu dodatka i nalepi link pesme sa YouTube-a.</span></li>
-        <li><span>Klikni <strong>Start on this tab</strong>.</span></li>
+    <div class="use">
+      <h3>Zatim</h3>
+      <ol class="userow">
+        <li><span>05</span>Otvori Skupštinu na YouTube-u</li>
+        <li><span>06</span>Klikni ikonicu dodatka</li>
+        <li><span>07</span>Nalepi link pesme koju želiš da slušaš</li>
+        <li><span>08</span>Klikni <strong>Start on this tab</strong></li>
       </ol>
-      <ul class="tips">
-        <li>Prve 2–3 sekunde ćeš ih ipak čuti, toliko treba da se prepozna ko priča.</li>
-        <li>Kratka dobacivanja iz klupe ne prekida.</li>
-      </ul>
-    </section>
-    <section>
-      <div class="sechead"><h2>Kako radi</h2></div>
-      <p>Svakih pola sekunde dodatak napravi otisak glasa i uporedi ga sa poslanicima sa liste. Kad se poklapa oko dve sekunde zaredom, pušta muziku. Kad progovori neko drugi, muzika staje.</p>
-      <p class="muted">Sve se dešava u tvom pretraživaču. Ponekad može da se zabuni i ućutka nekog sa sličnim glasom.</p>
-    </section>
-  </div>
+    </div>
+    <!-- video ide ovde -->
+  </section>
 
   <footer>
     <span>Ti da ćutiš ti si...</span>
