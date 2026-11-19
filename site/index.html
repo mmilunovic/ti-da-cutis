@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="sr" data-theme="krem">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,20 +9,20 @@
 <meta property="og:description" content="Gledaj Skupštinu. Kad oni uzmu reč, ti slušaš muziku.">
 <link rel="icon" href="favicon.png">
 <style>
+  :root, [data-theme="krem"] {
+    --bg: #f6f0e4; --ink: #24201b; --muted: #6e665a; --faint: #a39a8b; --line: #e3d9c6; --soft: #efe6d4;
+    --accent: #9b1c3a; --ring: rgba(155, 28, 58, .2); --btn: #24201b; --btn-ink: #f6f0e4;
+  }
+  [data-theme="pesak"] {
+    --bg: #ece6dc; --ink: #1d2a36; --muted: #5f6770; --faint: #9a9a94; --line: #d9d0c1; --soft: #e4dccd;
+    --accent: #1f4e79; --ring: rgba(31, 78, 121, .2); --btn: #1f4e79; --btn-ink: #ffffff;
+  }
   :root {
-    --bg: #ffffff; --ink: #111110; --muted: #6f6e69; --faint: #a3a29c; --line: #ececea; --soft: #f6f6f4;
-    --accent: #c2185b; --ring: rgba(194, 24, 91, .22);
-    /* mock Chrome UI */
+    /* mock Chrome UI stays light like real Chrome */
     --ui-bg: #ffffff; --ui-chrome: #f1f3f4; --ui-line: #dadce0; --ui-text: #202124; --ui-sub: #5f6368;
     --ui-blue: #1a73e8; --ui-blue-soft: #e8f0fe; --ui-folder: #f5b83d;
     --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
     --mono: ui-monospace, "SF Mono", Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #111110; --ink: #f2f1ee; --muted: #9e9d97; --faint: #6f6e69; --line: #262624; --soft: #1b1b1a;
-            --accent: #ec5f92; --ring: rgba(236, 95, 146, .28);
-            --ui-bg: #202124; --ui-chrome: #2b2c2f; --ui-line: #3c4043; --ui-text: #e8eaed; --ui-sub: #9aa0a6;
-            --ui-blue: #8ab4f8; --ui-blue-soft: #283142; --ui-folder: #e2a93a; }
   }
   * { box-sizing: border-box; }
   html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
@@ -40,7 +40,7 @@
   h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 20px; }
   .lead { font-size: 20px; line-height: 1.6; color: var(--muted); margin: 0 0 34px; max-width: 32em; }
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-  .btn { display: inline-block; background: var(--ink); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 16px;
+  .btn { display: inline-block; background: var(--btn); color: var(--btn-ink); text-decoration: none; font-weight: 600; font-size: 16px;
          padding: 13px 22px; border-radius: 10px; }
   .btn:hover { opacity: .86; }
   .link { color: var(--ink); font-size: 16px; text-decoration: none; border-bottom: 1px solid var(--line); }
@@ -65,7 +65,7 @@
   .num { font: 500 13px/2.1 var(--mono); color: var(--faint); }
   .step h3 { font-size: 17px; font-weight: 600; margin: 0 0 4px; line-height: 1.6; }
   .step p { color: var(--muted); margin: 0 0 14px; }
-  .shot { border: 1px solid var(--ui-line); border-radius: 12px; overflow: hidden; background: var(--ui-bg); color: var(--ui-text);
+  .shot { box-shadow: 0 1px 2px rgba(60,40,20,.06), 0 8px 24px rgba(60,40,20,.06); border: 1px solid var(--ui-line); border-radius: 12px; overflow: hidden; background: var(--ui-bg); color: var(--ui-text);
           font: 13px/1.4 var(--font); user-select: none; }
   .hl { position: relative; border-radius: 999px; box-shadow: 0 0 0 3px var(--accent), 0 0 0 9px var(--ring); }
   .hl-sq { border-radius: 8px; }
@@ -114,7 +114,6 @@
   .fold { width: 18px; height: 14px; border-radius: 2px 3px 3px 3px; background: var(--ui-folder); position: relative; flex: none; }
   .fold::before { content: ""; position: absolute; left: 0; top: -3px; width: 8px; height: 4px; border-radius: 2px 2px 0 0; background: var(--ui-folder); }
   .selbtn { background: var(--ui-blue); color: #fff; border-radius: 6px; padding: 4px 12px; font-weight: 500; }
-  @media (prefers-color-scheme: dark) { .selbtn { color: #202124; } }
 
   /* mock: download -> folder */
   .unzip { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 26px 16px; flex-wrap: wrap; }
@@ -149,6 +148,35 @@
   ul.tips li { margin-bottom: 6px; }
   .muted { color: var(--muted); }
 
+  .themes { display: flex; align-items: center; gap: 14px; }
+  .sw { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0,0,0,.18); cursor: pointer; padding: 0; }
+  .sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--ink); }
+  .sw.krem { background: linear-gradient(135deg, #f6f0e4 50%, #9b1c3a 50%); }
+  .sw.pesak { background: linear-gradient(135deg, #ece6dc 50%, #1f4e79 50%); }
+
+  figure.demo { margin: 0 0 8px; }
+  .frame { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 1100 / 617; background: #3a3128;
+           box-shadow: 0 1px 2px rgba(60,40,20,.08), 0 12px 32px rgba(60,40,20,.12); }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .live { position: absolute; left: 14px; top: 14px; background: #cc0000; color: #fff; font: 700 11px var(--font); letter-spacing: .04em;
+          padding: 3px 7px; border-radius: 4px; }
+  .badge { position: absolute; left: 14px; bottom: 14px; background: rgba(28,28,26,.88); color: #f1efe8; border-radius: 10px;
+           padding: 10px 12px; font: 13px/1.45 var(--font); min-width: 210px; }
+  .badge .st { color: #ED93B1; font-weight: 600; }
+  .badge .sub2 { opacity: .8; }
+  .badge svg { display: block; margin: 6px 0; }
+  .note-music { position: absolute; right: 14px; bottom: 14px; background: rgba(255,255,255,.94); color: #202124; border-radius: 10px;
+                padding: 9px 12px; font: 13px/1.4 var(--font); display: flex; align-items: center; gap: 9px; max-width: 46%; }
+  .note-music .eq { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+  .note-music .eq i { width: 3px; background: #c2185b; border-radius: 1px; display: block; height: 6px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .note-music .eq i { animation: eq .9s ease-in-out infinite; }
+    .note-music .eq i:nth-child(2) { animation-delay: .2s; } .note-music .eq i:nth-child(3) { animation-delay: .4s; }
+    @keyframes eq { 50% { height: 14px; } }
+  }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 12px; }
+  @media (max-width: 720px) { .note-music { display: none; } .badge { min-width: 0; font-size: 12px; } }
+
   footer { margin: 72px 0 0; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint);
            display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   footer a { color: var(--muted); text-decoration: none; }
@@ -168,7 +196,11 @@
 <div class="wrap">
   <nav>
     <a class="brand" href="./"><img src="icon.png" alt="">Ti da ćutiš ti si...</a>
-    <a class="gh" href="https://github.com/mmilunovic/ti-da-cutis">GitHub</a>
+    <div class="themes">
+      <button class="sw krem" data-theme="krem" aria-label="Krem tema" aria-pressed="true"></button>
+      <button class="sw pesak" data-theme="pesak" aria-label="Pesak tema" aria-pressed="false"></button>
+      <a class="gh" href="https://github.com/mmilunovic/ti-da-cutis">GitHub</a>
+    </div>
   </nav>
 
   <header>
@@ -187,6 +219,23 @@
     Prepoznaje <strong>Aleksandra Vučića</strong>, <strong>Anu Brnabić</strong> i <strong>Milenka Jovanova</strong>.
     Uskoro i Vojislava Šešelja, Nebojšu Bakareca, Marijana Rističevića i druge.
   </div>
+
+  <section>
+    <h2>Ovako izgleda</h2>
+    <figure class="demo">
+      <div class="frame">
+        <img src="skupstina.jpg" alt="Prenos sednice Narodne skupštine na YouTube-u, zamućen">
+        <div class="badge" aria-label="Oznaka dodatka na stranici">
+          <div class="st">♪ muted: Jovanov</div>
+          <div class="sub2">najverovatnije: Jovanov 0.47</div>
+          <svg width="170" height="20" viewBox="0 0 170 20" aria-hidden="true"><line x1="0" x2="170" y1="10" y2="10" stroke="#5F5E5A" stroke-dasharray="2 3"/><polyline fill="none" stroke="#ED93B1" stroke-width="1.5" points="0,17 18,16 36,15 54,12 72,9 90,8 108,9 126,8 144,9 170,8"/></svg>
+          <div class="sub2">muzika, može!</div>
+        </div>
+        <div class="note-music"><span class="eq"><i></i><i></i><i></i></span>Umesto njega svira tvoja pesma</div>
+      </div>
+      <figcaption>Pravi prenos sa sednice 19.11.2026. Dok Jovanov priča, zvuk prenosa je ugašen, a u drugoj kartici svira tvoja pesma. Slika je zamućena.</figcaption>
+    </figure>
+  </section>
 
   <section id="instalacija">
     <h2>Instalacija</h2>
@@ -298,6 +347,13 @@
   </footer>
 </div>
 <script>
+  const setTheme = (t) => {
+    document.documentElement.dataset.theme = t;
+    document.querySelectorAll(".sw").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.theme === t)));
+    try { localStorage.setItem("tema", t); } catch {}
+  };
+  try { const t = localStorage.getItem("tema"); if (t) setTheme(t); } catch {}
+  document.querySelectorAll(".sw").forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.theme)));
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
     try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Kopirano"; } catch { b.textContent = "Ne može"; }
     setTimeout(() => (b.textContent = "Kopiraj"), 1500);
