@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Ti da ćutiš ti si...",
   "version": "0.1.0",
-  "description": "Plays music over selected speakers on YouTube parliament streams. All processing stays in your browser.",
+  "description": "Pušta muziku umesto izabranih poslanika dok gledaš Skupštinu na YouTube-u.",
   "minimum_chrome_version": "116",
   "permissions": [
     "tabCapture",
