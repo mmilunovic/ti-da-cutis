@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="sr">
 <head>
 <meta charset="utf-8">
@@ -10,18 +10,24 @@
 <link rel="icon" href="favicon.png">
 <style>
   :root {
-    --bg: #ffffff; --ink: #111110; --muted: #6f6e69; --faint: #a3a29c; --line: #ececea;
-    --soft: #f6f6f4; --accent: #b0164f;
+    --bg: #ffffff; --ink: #111110; --muted: #6f6e69; --faint: #a3a29c; --line: #ececea; --soft: #f6f6f4;
+    --accent: #c2185b; --ring: rgba(194, 24, 91, .22);
+    /* mock Chrome UI */
+    --ui-bg: #ffffff; --ui-chrome: #f1f3f4; --ui-line: #dadce0; --ui-text: #202124; --ui-sub: #5f6368;
+    --ui-blue: #1a73e8; --ui-blue-soft: #e8f0fe; --ui-folder: #f5b83d;
     --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
     --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111110; --ink: #f2f1ee; --muted: #9e9d97; --faint: #6f6e69; --line: #262624; --soft: #1b1b1a; --accent: #ec5f92; }
+    :root { --bg: #111110; --ink: #f2f1ee; --muted: #9e9d97; --faint: #6f6e69; --line: #262624; --soft: #1b1b1a;
+            --accent: #ec5f92; --ring: rgba(236, 95, 146, .28);
+            --ui-bg: #202124; --ui-chrome: #2b2c2f; --ui-line: #3c4043; --ui-text: #e8eaed; --ui-sub: #9aa0a6;
+            --ui-blue: #8ab4f8; --ui-blue-soft: #283142; --ui-folder: #e2a93a; }
   }
   * { box-sizing: border-box; }
-  html { -webkit-font-smoothing: antialiased; }
+  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.7 var(--font); }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px; }
 
   nav { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--ink); text-decoration: none; }
@@ -29,10 +35,10 @@
   nav a.gh { color: var(--muted); font-size: 15px; text-decoration: none; }
   nav a.gh:hover { color: var(--ink); }
 
-  header { padding: 72px 0 56px; }
+  header { padding: 64px 0 52px; }
   .kicker { font-size: 14px; color: var(--muted); margin: 0 0 14px; }
-  h1 { font-size: clamp(36px, 7vw, 54px); line-height: 1.08; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 20px; }
-  .lead { font-size: 20px; line-height: 1.6; color: var(--muted); margin: 0 0 36px; max-width: 34em; }
+  h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 20px; }
+  .lead { font-size: 20px; line-height: 1.6; color: var(--muted); margin: 0 0 34px; max-width: 32em; }
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
   .btn { display: inline-block; background: var(--ink); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 16px;
          padding: 13px 22px; border-radius: 10px; }
@@ -40,30 +46,122 @@
   .link { color: var(--ink); font-size: 16px; text-decoration: none; border-bottom: 1px solid var(--line); }
   .link:hover { border-color: var(--ink); }
   .meta { font-size: 14px; color: var(--faint); margin: 18px 0 0; }
+  .phone { display: none; background: var(--soft); border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--muted); margin-top: 20px; }
 
   .who { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; font-size: 15px; color: var(--muted); }
   .who strong { color: var(--ink); font-weight: 600; }
 
-  section { padding: 56px 0 8px; }
-  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 600; margin: 0 0 22px; }
-  ol { list-style: none; counter-reset: n; padding: 0; margin: 0; }
-  ol li { counter-increment: n; display: grid; grid-template-columns: 34px 1fr; padding: 0 0 18px; }
-  ol li::before { content: counter(n, decimal-leading-zero); font: 500 13px/2.1 var(--mono); color: var(--faint); }
+  section { padding: 60px 0 4px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 600; margin: 0 0 10px; }
+  .sub { color: var(--muted); margin: 0 0 30px; }
   p { margin: 0 0 16px; }
-  .muted { color: var(--muted); }
   code { font: 14px var(--mono); background: var(--soft); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
   button.copy { font: 500 12px var(--font); color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px;
                 padding: 1px 8px; margin-left: 6px; cursor: pointer; vertical-align: 1px; }
   button.copy:hover { color: var(--ink); }
-  ul { padding-left: 18px; margin: 4px 0 0; color: var(--muted); }
-  ul li { margin-bottom: 6px; }
-  .phone { display: none; background: var(--soft); border-radius: 10px; padding: 12px 14px; font-size: 15px; color: var(--muted); margin-top: 20px; }
-  @media (max-width: 720px) { .phone { display: block; } header { padding: 40px 0 40px; } }
+
+  /* steps with illustrations */
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 0; margin: 0 0 34px; }
+  .num { font: 500 13px/2.1 var(--mono); color: var(--faint); }
+  .step h3 { font-size: 17px; font-weight: 600; margin: 0 0 4px; line-height: 1.6; }
+  .step p { color: var(--muted); margin: 0 0 14px; }
+  .shot { border: 1px solid var(--ui-line); border-radius: 12px; overflow: hidden; background: var(--ui-bg); color: var(--ui-text);
+          font: 13px/1.4 var(--font); user-select: none; }
+  .hl { position: relative; border-radius: 999px; box-shadow: 0 0 0 3px var(--accent), 0 0 0 9px var(--ring); }
+  .hl-sq { border-radius: 8px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .hl { animation: pulse 2.2s ease-in-out infinite; }
+    @keyframes pulse { 50% { box-shadow: 0 0 0 3px var(--accent), 0 0 0 13px transparent; } }
+  }
+  .cursor { position: absolute; width: 18px; height: 18px; right: -10px; bottom: -14px; pointer-events: none; }
+
+  /* mock: browser tab bar + address bar */
+  .bar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--ui-chrome); border-bottom: 1px solid var(--ui-line); }
+  .dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--ui-line); display: block; }
+  .omni { flex: 1; background: var(--ui-bg); border-radius: 999px; padding: 6px 14px; color: var(--ui-text); font-family: var(--mono); font-size: 12.5px;
+          display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; overflow: hidden; }
+  .omni .caret { width: 1px; height: 14px; background: var(--ui-text); }
+  @media (prefers-reduced-motion: no-preference) { .omni .caret { animation: blink 1s steps(1) infinite; } @keyframes blink { 50% { opacity: 0; } } }
+  .tbtn { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: var(--ui-sub); flex: none; }
+  .tbtn svg { width: 18px; height: 18px; }
+
+  /* mock: chrome://extensions page */
+  .ext-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; gap: 12px; }
+  .ext-title { font-size: 17px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+  .ext-title svg { width: 22px; height: 22px; color: var(--ui-blue); }
+  .dev { display: flex; align-items: center; gap: 10px; color: var(--ui-text); padding: 4px 8px 4px 12px; white-space: nowrap; }
+  .toggle { width: 34px; height: 14px; border-radius: 7px; background: var(--ui-line); position: relative; flex: none; }
+  .toggle::after { content: ""; position: absolute; top: -3px; left: -2px; width: 20px; height: 20px; border-radius: 50%; background: #fff;
+                   box-shadow: 0 1px 3px rgba(0,0,0,.35); }
+  .toggle.on { background: color-mix(in srgb, var(--ui-blue) 45%, transparent); }
+  .toggle.on::after { left: 16px; background: var(--ui-blue); }
+  .ext-actions { display: flex; gap: 10px; padding: 2px 16px 16px; border-bottom: 1px solid var(--ui-line); flex-wrap: wrap; }
+  .pill { border: 1px solid var(--ui-line); color: var(--ui-blue); border-radius: 999px; padding: 6px 14px; font-weight: 500; white-space: nowrap; }
+  .pill.dim { opacity: .45; }
+  .ext-body { padding: 18px 16px 20px; display: flex; gap: 16px; align-items: flex-start; }
+  .card { border: 1px solid var(--ui-line); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; flex: 1; max-width: 360px; }
+  .card img { width: 32px; height: 32px; }
+  .card b { display: block; font-weight: 500; }
+  .card span { color: var(--ui-sub); font-size: 12px; }
+  .ghost { flex: 1; height: 54px; border-radius: 10px; background: repeating-linear-gradient(90deg, var(--ui-chrome) 0 60%, transparent 60% 100%); opacity: .6; max-width: 360px; }
+
+  /* mock: folder picker */
+  .picker { margin: 0 16px 16px; border: 1px solid var(--ui-line); border-radius: 10px; overflow: hidden; }
+  .picker .row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-top: 1px solid var(--ui-line); }
+  .picker .row:first-child { border-top: 0; color: var(--ui-sub); font-size: 12px; background: var(--ui-chrome); }
+  .picker .row.sel { background: var(--ui-blue-soft); }
+  .picker .grow { flex: 1; }
+  .fold { width: 18px; height: 14px; border-radius: 2px 3px 3px 3px; background: var(--ui-folder); position: relative; flex: none; }
+  .fold::before { content: ""; position: absolute; left: 0; top: -3px; width: 8px; height: 4px; border-radius: 2px 2px 0 0; background: var(--ui-folder); }
+  .selbtn { background: var(--ui-blue); color: #fff; border-radius: 6px; padding: 4px 12px; font-weight: 500; }
+  @media (prefers-color-scheme: dark) { .selbtn { color: #202124; } }
+
+  /* mock: download -> folder */
+  .unzip { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 26px 16px; flex-wrap: wrap; }
+  .file { display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--ui-text); }
+  .zip { width: 46px; height: 56px; border-radius: 6px; background: var(--ui-chrome); border: 1px solid var(--ui-line); position: relative; }
+  .zip::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 18px; width: 6px; margin-left: -3px;
+                 background: repeating-linear-gradient(var(--ui-sub) 0 4px, transparent 4px 8px); opacity: .7; }
+  .zip::after { content: "ZIP"; position: absolute; bottom: 5px; left: 0; right: 0; text-align: center; font: 700 10px var(--font); color: var(--ui-sub); }
+  .bigfold { width: 62px; height: 46px; border-radius: 4px 6px 6px 6px; background: var(--ui-folder); position: relative; margin-top: 8px; }
+  .bigfold::before { content: ""; position: absolute; left: 0; top: -8px; width: 24px; height: 9px; border-radius: 4px 4px 0 0; background: var(--ui-folder); }
+  .arrow { color: var(--ui-sub); font-size: 22px; }
+  .hint { font-family: var(--font); font-size: 12px; color: var(--ui-sub); text-align: center; margin-top: -6px; padding-bottom: 18px; }
+
+  /* mock: puzzle menu */
+  .menu-wrap { position: relative; height: 158px; }
+  .menu { position: absolute; right: 14px; top: 10px; width: 270px; background: var(--ui-bg); border: 1px solid var(--ui-line); border-radius: 10px;
+          box-shadow: 0 6px 20px rgba(0,0,0,.12); padding: 8px 0; }
+  .menu .mh { padding: 4px 14px 8px; color: var(--ui-sub); font-size: 12px; }
+  .menu .mi { display: flex; align-items: center; gap: 10px; padding: 8px 14px; }
+  .menu .mi img { width: 18px; height: 18px; }
+  .menu .mi .grow { flex: 1; }
+  .menu .mi.other { opacity: .5; }
+  .menu .mi.other i { width: 18px; height: 18px; border-radius: 4px; background: var(--ui-line); display: block; }
+  .pin { width: 26px; height: 26px; display: grid; place-items: center; color: var(--ui-sub); border-radius: 50%; }
+  .pin svg { width: 16px; height: 16px; }
+
+  /* usage list */
+  ol.plain { list-style: none; counter-reset: n; padding: 0; margin: 0 0 8px; }
+  ol.plain li { counter-increment: n; display: grid; grid-template-columns: 34px 1fr; padding: 0 0 14px; }
+  ol.plain li::before { content: counter(n, decimal-leading-zero); font: 500 13px/2.1 var(--mono); color: var(--faint); }
+  ul.tips { padding-left: 18px; margin: 10px 0 0; color: var(--muted); }
+  ul.tips li { margin-bottom: 6px; }
+  .muted { color: var(--muted); }
 
   footer { margin: 72px 0 0; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint);
            display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   footer a { color: var(--muted); text-decoration: none; }
   footer a:hover { color: var(--ink); }
+
+  @media (max-width: 720px) {
+    .phone { display: block; }
+    header { padding: 36px 0 40px; }
+    .step { grid-template-columns: 1fr; }
+    .num { line-height: 1.4; margin-bottom: 2px; }
+    .ghost { display: none; }
+    .dev span.lbl { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -81,7 +179,7 @@
       <a class="btn" href="ti-da-cutis.zip" download>Preuzmi dodatak</a>
       <a class="link" href="#instalacija">Kako se instalira</a>
     </div>
-    <p class="meta">Besplatno · Chrome na računaru · 29 MB · uskoro u Chrome Web Store-u</p>
+    <p class="meta">Uskoro u Chrome Web Store-u i drugim pretraživačima.</p>
     <p class="phone">Dodaci za Chrome ne rade na telefonu. Otvori ovu stranicu na računaru.</p>
   </header>
 
@@ -92,23 +190,96 @@
 
   <section id="instalacija">
     <h2>Instalacija</h2>
-    <p class="muted">Dodatak čeka odobrenje u Chrome Web Store-u. Do tada se instalira ručno, za minut.</p>
-    <ol>
-      <li><span>Preuzmi dodatak i raspakuj preuzeti fajl. Dobićeš folder <code>ti-da-cutis</code>.</span></li>
-      <li><span>U Chrome-u otvori <code>chrome://extensions</code><button class="copy" data-copy="chrome://extensions">Kopiraj</button> i gore desno uključi <strong>Developer mode</strong>.</span></li>
-      <li><span>Klikni <strong>Load unpacked</strong> gore levo i izaberi folder <code>ti-da-cutis</code>.</span></li>
-      <li><span>Klikni slagalicu pored polja za adresu i zakači dodatak da ti bude pri ruci.</span></li>
-    </ol>
+    <p class="sub">Dodatak čeka odobrenje u Chrome Web Store-u. Do tada se instalira ručno, za minut.</p>
+
+    <div class="step">
+      <div class="num">01</div>
+      <div>
+        <h3>Preuzmi i raspakuj</h3>
+        <p>Klikni „Preuzmi dodatak“ gore, pa dvaput klikni na preuzeti fajl. Dobićeš folder <code>ti-da-cutis</code>.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="unzip">
+            <div class="file"><div class="zip"></div>ti-da-cutis.zip</div>
+            <div class="arrow">→</div>
+            <div class="file"><div class="bigfold hl hl-sq"></div>ti-da-cutis</div>
+          </div>
+          <div class="hint">Na Windows-u: desni klik → Extract All</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">02</div>
+      <div>
+        <h3>Otvori dodatke i uključi Developer mode</h3>
+        <p>U polje za adresu ukucaj <code>chrome://extensions</code><button class="copy" data-copy="chrome://extensions">Kopiraj</button> i pritisni Enter. Gore desno uključi <strong>Developer mode</strong> (Režim za programere).</p>
+        <div class="shot" aria-hidden="true">
+          <div class="bar">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <div class="omni">chrome://extensions<span class="caret"></span></div>
+          </div>
+          <div class="ext-head">
+            <div class="ext-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3a1 1 0 0 0 1-1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1a2 2 0 0 0-4 0v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a2 2 0 0 0 0-4h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1"/></svg>Extensions</div>
+            <div class="dev hl"><span class="lbl">Developer mode</span><div class="toggle on"></div></div>
+          </div>
+          <div class="ext-actions"><span class="pill">Load unpacked</span><span class="pill">Pack extension</span><span class="pill">Update</span></div>
+          <div class="ext-body"><div class="ghost"></div><div class="ghost"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">03</div>
+      <div>
+        <h3>Klikni Load unpacked i izaberi folder</h3>
+        <p>Klikni <strong>Load unpacked</strong> (Učitaj raspakovano) gore levo, izaberi folder <code>ti-da-cutis</code> i potvrdi.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="ext-actions" style="padding-top:16px"><span class="pill hl">Load unpacked</span><span class="pill dim">Pack extension</span><span class="pill dim">Update</span></div>
+          <div style="height:16px"></div>
+          <div class="picker">
+            <div class="row">Downloads</div>
+            <div class="row"><div class="fold"></div><span class="grow">Dokumenti</span></div>
+            <div class="row sel"><div class="fold"></div><span class="grow"><b style="font-weight:500">ti-da-cutis</b></span><span class="selbtn">Select</span></div>
+          </div>
+          <div class="ext-body" style="padding-top:0">
+            <div class="card"><img src="icon.png" alt=""><div><b>Ti da ćutiš ti si...</b><span>Dodatak je učitan</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">04</div>
+      <div>
+        <h3>Zakači ikonicu</h3>
+        <p>Klikni slagalicu pored polja za adresu i klikni čiodu pored „Ti da ćutiš ti si...“. Ikonica će ostati stalno vidljiva.</p>
+        <div class="shot" aria-hidden="true">
+          <div class="bar">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <div class="omni">youtube.com</div>
+            <div class="tbtn hl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3a1 1 0 0 0 1-1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1a2 2 0 0 0-4 0v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a2 2 0 0 0 0-4h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1"/></svg></div>
+          </div>
+          <div class="menu-wrap">
+            <div class="menu">
+              <div class="mh">Extensions</div>
+              <div class="mi"><img src="icon.png" alt=""><span class="grow">Ti da ćutiš ti si...</span>
+                <span class="pin hl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4"/><path d="M9 15l-4.5 4.5"/><path d="M14.5 4l5.5 5.5"/></svg></span></div>
+              <div class="mi other"><i></i><span class="grow">Drugi dodatak</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>
     <h2>Kako se koristi</h2>
-    <ol>
+    <ol class="plain">
       <li><span>Otvori prenos Skupštine na YouTube-u.</span></li>
       <li><span>Klikni ikonicu dodatka i nalepi link pesme sa YouTube-a.</span></li>
       <li><span>Klikni <strong>Start on this tab</strong>.</span></li>
     </ol>
-    <ul>
+    <ul class="tips">
       <li>Prve 2–3 sekunde ćeš ih ipak čuti, toliko treba da se prepozna ko priča.</li>
       <li>Kratka dobacivanja iz klupe ne prekida, samo pravo izlaganje.</li>
       <li>Ako Chrome ne pusti muziku sam, klikni jednom u kartici sa pesmom.</li>
