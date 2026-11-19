@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font: 13px/1.45 -apple-system, system-ui, sans-serif; width: 300px; margin: 0; padding: 14px; color: #2c2c2a; }
+  h1 { font-size: 15px; font-weight: 500; margin: 0 0 10px; }
+  h2 { font-size: 12px; font-weight: 500; color: #5f5e5a; margin: 14px 0 6px; }
+  label { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #d3d1c7; border-radius: 8px; font: inherit; }
+  button { width: 100%; padding: 8px; border: 0; border-radius: 8px; font: inherit; font-weight: 500; cursor: pointer; }
+  #toggle.start { background: #3B6D11; color: #fff; }
+  #toggle.stop { background: #f1efe8; color: #2c2c2a; }
+  #status { margin-top: 8px; color: #5f5e5a; min-height: 18px; }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .muted-note { font-size: 11px; color: #888780; }
+  #export { background: none; color: #185FA5; padding: 4px 0; text-align: left; font-weight: 400; }
+</style>
+</head>
+<body>
+  <h1>Ti da ćutiš ti si...</h1>
+  <button id="toggle" class="start">Start on this tab</button>
+  <div id="status"></div>
+
+  <h2>Mutiraj poslanike</h2>
+  <div id="speakers"></div>
+
+  <h2>Music while muted (YouTube link)</h2>
+  <input id="music" type="text" placeholder="https://www.youtube.com/watch?v=…">
+  <div class="muted-note">Opens in a new tab on the first mute and loops. Leave empty for plain silence.</div>
+
+  <h2>Options</h2>
+  <label><input id="debug" type="checkbox"> Show debug badge on the page</label>
+  <div class="row"><span>Threshold</span><span id="thrv"></span></div>
+  <input id="thr" type="range" min="0.3" max="0.8" step="0.01" style="width:100%">
+  <button id="export">Export "wrong" log (Alt+W entries)</button>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

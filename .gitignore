@@ -1,0 +1,13 @@
+# audio and derived data stay local
+data/clips/
+data/derived/
+data/manifest.jsonl
+reports/
+*.wav
+
+node_modules/
+extension/dist/*.map
+__pycache__/
+*.egg-info/
+.venv/
+.DS_Store
