@@ -6,7 +6,6 @@ rm -rf site-build && mkdir -p site-build/tmp/ti-da-cutis
 cp site/index.html site-build/
 cp extension/dist/icons/icon128.png site-build/icon.png
 cp extension/dist/icons/icon32.png site-build/favicon.png
-cp site/skupstina.jpg site-build/skupstina.jpg
 cp -r extension/dist/. site-build/tmp/ti-da-cutis/
 rm -f site-build/tmp/ti-da-cutis/*.map
 (cd site-build/tmp && zip -qr9 ../ti-da-cutis.zip ti-da-cutis)
