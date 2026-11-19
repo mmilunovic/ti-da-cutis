@@ -2,68 +2,70 @@
 
 # Ti da ćutiš ti si...
 
-A Chrome extension for watching Serbian National Assembly sessions on YouTube. It recognizes chosen MPs by their voice and plays music while they talk. Everyone else stays audible.
+Dodatak za Chrome za sve koji gledaju prenos Skupštine na YouTube-u, a ne žele da slušaju baš svakoga. Kad neko od izabranih poslanika uzme reč, dodatak ga prepozna po glasu i umesto njega ti pusti muziku po izboru. Kad on završi, vraća te na prenos i nastavljaš da gledaš kao da ništa nije bilo.
 
-Recognition runs entirely in your browser. No audio leaves your machine.
+Sve radi u tvom pregledaču. Ništa se ne šalje nigde.
 
-Out of the box it recognizes Aleksandar Vučić, Ana Brnabić and Milenko Jovanov.
+Trenutno prepoznaje: **Aleksandra Vučića, Anu Brnabić i Milenka Jovanova.**
 
-## Install
+## Instalacija
 
-1. Download this repo (Code → Download ZIP) and unzip it.
-2. Open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and pick the `extension/dist` folder.
-4. Open a parliament session on YouTube, click the extension icon, paste a YouTube link for the music, and press **Start on this tab**.
+Poslao sam dodatak u Chrome Web Store. Kad ga odobre, instalacija će biti jedan klik, a link će stajati ovde.
 
-The first time someone on the list starts talking, the music opens in a new tab and loops. When they stop, it pauses and you're switched back to the session.
+Do tada ga možeš instalirati ručno. Traje oko dva minuta, nije potrebno nikakvo znanje.
 
-## How it works
+**1. Preuzmi dodatak**
 
-- The extension captures the tab's audio. Every 0.5 s it embeds the last 1.5 s with a speaker-recognition model (WeSpeaker ResNet34, ONNX, running in WebAssembly) and compares the result with stored voiceprints.
-- An MP is muted after about 2 s of continuous match. Short interjections stay audible. Music stops after 1 s of someone else speaking.
-- You'll hear the first 2–3 s of each turn before the music starts.
-- Other MPs' voiceprints (currently Jovo Bakić and Jugoslav Gašić) are compared too, so a voice that sounds more like them than like a muted MP never triggers music.
+Na vrhu ove stranice klikni zeleno dugme **Code**, pa u meniju koji se otvori klikni **Download ZIP**. Preuzeće se fajl `ti-da-cutis-main.zip`.
 
-On videos the voiceprints weren't built from, the three MPs are told apart with under 2% of their speech missed and almost no false mutes (threshold 0.5, about 3 s of speech). Only five voices have been tested so far. MPs nobody has enrolled can still trigger a wrong mute, especially at the default threshold of 0.4.
+**2. Raspakuj ga**
 
-## Repository
+Otvori folder Downloads (Preuzimanja).
+- **Mac:** dvaput klikni na `ti-da-cutis-main.zip`. Pojaviće se folder `ti-da-cutis-main`.
+- **Windows:** desni klik na `ti-da-cutis-main.zip`, pa **Extract All** (Izdvoji sve), pa **Extract**.
 
-| Path | What's there |
-|---|---|
-| `extension/` | Chrome extension (TypeScript). `dist/` is the built, ready-to-load version. |
-| `pipeline/` | Python: silence removal, embeddings, outlier cleaning, separation report, voiceprint export |
-| `scripts/cut_clips.py` | Cuts labeled clips from YouTube with yt-dlp |
-| `data/clips.csv` | The labels used for the current voiceprints (video, speaker, time range) |
-| `data/voiceprints.json` | Voiceprints bundled with the extension |
-| `models/` | ONNX models, see `models/README.md` for sources and licenses |
-| `docs/SPEC.md` | Original design spec, with the decisions made since at the top |
+**3. Otvori stranicu sa dodacima u Chrome-u**
 
-Audio clips are not in the repo. Recreate them from `data/clips.csv`.
+U Chrome-u klikni na traku za adresu (gde inače kucaš adrese sajtova), ukucaj `chrome://extensions` i pritisni Enter.
 
-## Adding a speaker or rebuilding voiceprints
+**4. Uključi režim za programere**
 
-```bash
-brew install yt-dlp ffmpeg
-python3 scripts/cut_clips.py               # cuts data/clips.csv into data/clips/
-cd pipeline && pip install -e .
-pmute all --repo ..                        # segment, clean, report, export voiceprints
-cd ../extension && npm install && npm run build
-```
+U gornjem desnom uglu te stranice je prekidač **Developer mode** (na srpskom: **Režim za programere**). Uključi ga. Ne brini, ovo samo dozvoljava da instaliraš dodatak koji nije iz prodavnice.
 
-Add rows to `data/clips.csv` (one person speaking per row, at least 2 different videos per person). New people show up in the popup once `default_muted` is set for them in `pipeline/src/pmute/export.py`.
+**5. Učitaj dodatak**
 
-## Tests
+Gore levo pojaviće se dugme **Load unpacked** (**Učitaj raspakovano**). Klikni ga. Otvoriće se prozor za biranje foldera. Uđi u `ti-da-cutis-main`, pa u `extension`, i izaberi folder `dist`. Klikni **Select** (Izaberi).
 
-```bash
-cd extension
-npm test          # mute logic, Python/TypeScript feature parity, replay on real clips (needs data/clips)
-npm run smoke     # loads the built extension in headless Chrome
-```
+Dodatak „Ti da ćutiš ti si...“ sad je na listi.
 
-## Credits
+**6. Zakači ikonicu da ti bude pri ruci**
 
-Header image: meme on Paja Jovanović's painting *The Proclamation of Dušan's Code* (1900), public domain.
+Gore desno u Chrome-u klikni ikonicu slagalice (🧩), nađi „Ti da ćutiš ti si...“ i klikni čiodu pored. Ikonica sa prekriženim usnama ostaće stalno vidljiva.
 
-## Note on the data
+## Kako se koristi
 
-`data/voiceprints.json` contains voice embeddings of public figures, built from public parliament broadcasts. In the EU and Serbia, voice embeddings that identify a person can count as biometric personal data.
+1. Otvori prenos Skupštine na YouTube-u i pusti ga.
+2. Klikni ikonicu sa prekriženim usnama.
+3. U polje za muziku nalepi link bilo koje pesme sa YouTube-a.
+4. Proveri koga želiš da ućutkaš (svi su čekirani).
+5. Klikni zeleno dugme **Start on this tab**.
+
+To je to. Kad neko sa liste priča duže od par sekundi, otvoriće se tvoja pesma u novoj kartici i sviraće u krug. Kad on završi, pesma staje i vraćaš se na prenos. Sledeći put kad krene, pesma nastavlja odakle je stala.
+
+Dobro je znati:
+- Prve 2–3 sekunde njihovog govora ćeš ipak čuti. Toliko treba dodatku da bude siguran ko priča.
+- Kratka dobacivanja iz klupe ne prekida, samo pravo izlaganje.
+- Ako Chrome ne pusti muziku sam od sebe, u kartici sa pesmom pojaviće se poruka da klikneš bilo gde. Jedan klik i dalje radi samo.
+- Kad ti više ne treba, klikni ikonicu pa **Stop**.
+
+## Kako radi
+
+Dodatak sluša zvuk iz kartice sa prenosom. Svakih pola sekunde uzme poslednju sekundu i po govora i napravi od nje „otisak glasa“, nešto kao otisak prsta, samo za glas. Taj otisak uporedi sa otiscima poslanika sa liste. Kad se isti poslanik poklapa oko dve sekunde zaredom, pušta muziku. Kad progovori neko drugi, muzika staje.
+
+Za ovo se koristi model za prepoznavanje govornika koji radi direktno u pregledaču. Zvuk ne napušta tvoj računar i ništa se ne šalje na internet.
+
+Na snimcima koje nije video tokom učenja, dodatak je ova tri poslanika prepoznao skoro bez greške. Ponekad ipak može da se zabuni i ućutka nekog ko ima sličan glas.
+
+## Uskoro
+
+Aktivno dodajem glasove novih poslanika, između ostalih **Vojislava Šešelja, Nebojše Bakareca i Marijana Rističevića**. Nove verzije će se pojavljivati ovde.
