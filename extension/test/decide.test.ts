@@ -40,18 +40,33 @@ describe("MuteEngine", () => {
     expect(ds.some((d) => d.muted)).toBe(false);
   });
 
-  it("unmutes after 1 s of another speaker, but holds music at least 2 s", () => {
-    const ds = run([[10, "vucic"], [3, "chair"]]);
-    // muted at t=2.0; chair starts at 10.5, unmute after 1.0 s -> t=11.0
-    expect(mutedAt(ds, 10.5)).toBe(true);
-    expect(mutedAt(ds, 11.0)).toBe(false);
+  it("unmutes after 3 s of another speaker", () => {
+    const ds = run([[10, "vucic"], [5, "chair"]]);
+    // vucic until 10.0, chair from 10.5; unmute after 3.0 s of chair -> t=13.0
+    expect(mutedAt(ds, 12.5)).toBe(true);
+    expect(mutedAt(ds, 13.0)).toBe(false);
   });
 
-  it("min hold: a quick switch right after muting does not flicker", () => {
-    const ds = run([[2, "vucic"], [1, "chair"], [5, "chair"]]);
+  it("a few words from the chair keep the music going", () => {
+    const ds = run([[8, "vucic"], [2, "chair"], [6, "vucic"], [2.5, "chair"], [4, "vucic"]]);
+    expect(ds.filter((d) => d.t >= 2).every((d) => d.muted)).toBe(true);
+    expect(ds.filter((d) => d.changed).length).toBe(1);
+  });
+
+  it("min hold after muting: no unmute sooner than 5 s", () => {
+    const ds = run([[2, "vucic"], [6, "chair"]]);
     expect(mutedAt(ds, 2.0)).toBe(true);
-    expect(mutedAt(ds, 3.0)).toBe(true); // otherRun=1.0 but only 1 s since mute
-    expect(mutedAt(ds, 4.0)).toBe(false);
+    expect(mutedAt(ds, 5.5)).toBe(true); // 3.5 s of chair, but only 3.5 s since mute
+    expect(mutedAt(ds, 7.0)).toBe(false);
+  });
+
+  it("min hold after unmuting: a quick comeback does not flip the music right back", () => {
+    const ds = run([[10, "vucic"], [3, "chair"], [10, "vucic"]]);
+    // unmuted at 13.0; vucic back at 13.5 -> 2 s matched by 15.0, but hold until 18.0
+    expect(mutedAt(ds, 13.0)).toBe(false);
+    expect(mutedAt(ds, 17.5)).toBe(false);
+    expect(mutedAt(ds, 18.0)).toBe(true);
+    expect(ds.filter((d) => d.changed).length).toBe(3);
   });
 
   it("silence changes nothing", () => {

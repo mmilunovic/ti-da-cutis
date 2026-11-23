@@ -60,13 +60,13 @@ describe("replay on real audio", () => {
     const firstMute = timeline.find((x) => x.muted);
     console.log("first mute at", firstMute?.t.toFixed(1), "s (Vučić starts at 20.0 s)");
     console.log("muted share: gasic 0-20:", frac(at(0, 20)), " vucic 24-40:", frac(at(24, 40)),
-      " gasic 43-50:", frac(at(43, 50)), " after interjection 53-61.5:", frac(at(53, 61.5)));
+      " gasic 45-50:", frac(at(45, 50)), " after interjection 53-61.5:", frac(at(53, 61.5)));
     console.log("embed ms (node, 1 thread):", an.lastEmbedMs.toFixed(0));
     expect(frac(at(0, 20))).toBe(0);
     expect(frac(at(24, 40))).toBe(1);
     expect(firstMute!.t).toBeGreaterThan(20);
     expect(firstMute!.t).toBeLessThan(24.5);
-    expect(frac(at(43, 50))).toBe(0); // unmuted once Gašić is back
+    expect(frac(at(45, 50))).toBe(0); // unmuted ~3 s after Gašić is back
     expect(frac(at(53, 61.5))).toBe(0); // the 1.5 s Vučić interjection did not trigger music
   }, 300000);
 });

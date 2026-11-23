@@ -1908,9 +1908,9 @@ var DEFAULT_PARAMS = {
   hopS: 0.5,
   smoothN: 3,
   muteAfterS: 2,
-  unmuteAfterS: 1,
-  minHoldS: 2,
-  defaultThreshold: 0.5,
+  unmuteAfterS: 3,
+  minHoldS: 5,
+  defaultThreshold: 0.55,
   thresholds: {}
 };
 var MuteEngine = class {
@@ -1926,7 +1926,7 @@ var MuteEngine = class {
   candidate = null;
   matchRun = 0;
   otherRun = 0;
-  mutedAt = -Infinity;
+  switchedAt = -Infinity;
   last = null;
   thr(id) {
     return this.params.thresholds[id] ?? this.params.defaultThreshold;
@@ -1939,7 +1939,7 @@ var MuteEngine = class {
     this.muted = false;
     this.target = this.candidate = null;
     this.matchRun = this.otherRun = 0;
-    this.mutedAt = -Infinity;
+    this.switchedAt = -Infinity;
   }
   /** Fail open: unmute immediately. */
   fail(t, reason) {
@@ -1991,10 +1991,11 @@ var MuteEngine = class {
         this.candidate = null;
         this.matchRun = 0;
       }
-      if (this.candidate && this.matchRun >= p.muteAfterS - 1e-9) {
+      const held = o.t - this.switchedAt >= p.minHoldS - 1e-9;
+      if (this.candidate && this.matchRun >= p.muteAfterS - 1e-9 && held) {
         this.muted = true;
         this.target = this.candidate;
-        this.mutedAt = o.t;
+        this.switchedAt = o.t;
         this.otherRun = 0;
         changed = true;
         reason = `mute: ${this.target} matched ${this.matchRun.toFixed(1)}s`;
@@ -2009,10 +2010,11 @@ var MuteEngine = class {
       } else {
         this.otherRun += p.hopS;
         reason = `other speech ${this.otherRun.toFixed(1)}s`;
-        if (this.otherRun >= p.unmuteAfterS - 1e-9 && o.t - this.mutedAt >= p.minHoldS - 1e-9) {
+        if (this.otherRun >= p.unmuteAfterS - 1e-9 && o.t - this.switchedAt >= p.minHoldS - 1e-9) {
           this.muted = false;
           this.target = this.candidate = null;
           this.matchRun = this.otherRun = 0;
+          this.switchedAt = o.t;
           changed = true;
           reason = "unmute: other speaker";
         }

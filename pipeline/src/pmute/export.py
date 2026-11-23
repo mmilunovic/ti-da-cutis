@@ -11,9 +11,10 @@ import numpy as np
 from .clean import robust_centroid
 
 DISPLAY = {"vucic": "Aleksandar Vučić", "brnabic": "Ana Brnabić", "jovanov": "Milenko Jovanov",
-           "bakic": "Jovo Bakić", "gasic": "Jugoslav Gašić"}
-DEFAULT_TARGETS = {"vucic", "brnabic", "jovanov"}
-DEFAULT_THRESHOLD = 0.5
+           "bakic": "Jovo Bakić", "gasic": "Jugoslav Gašić",
+           "mrdic": "Uglješa Mrdić", "risticevic": "Marijan Rističević"}
+DEFAULT_TARGETS = {"vucic", "brnabic", "jovanov", "mrdic", "risticevic"}
+DEFAULT_THRESHOLD = 0.55
 
 
 def sha256(path: Path) -> str:

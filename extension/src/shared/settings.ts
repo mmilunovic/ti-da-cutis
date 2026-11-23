@@ -11,19 +11,19 @@ export const DEFAULT_SETTINGS: Settings = {
   musicUrl: "", // paste a YouTube link in the popup; empty = plain mute
   delay: false,
   debug: true,
-  threshold: 0.4,
+  threshold: 0.55,
 };
 
 export const DELAY_S = 3.0;
 export const FADE_S = 0.3;
 
-const SETTINGS_VERSION = 2;
+const SETTINGS_VERSION = 3;
 
 export async function loadSettings(): Promise<Settings> {
   const r = await chrome.storage.local.get(["settings", "settingsVersion"]);
   const s: Settings = { ...DEFAULT_SETTINGS, ...((r.settings as Partial<Settings> | undefined) ?? {}) };
   if (r.settingsVersion !== SETTINGS_VERSION) {
-    // v2: default threshold 0.4, delay option removed
+    // v3: default threshold 0.55 (v2: 0.4, delay option removed)
     s.threshold = DEFAULT_SETTINGS.threshold;
     await chrome.storage.local.set({ settings: s, settingsVersion: SETTINGS_VERSION });
   }

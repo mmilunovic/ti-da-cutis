@@ -28,7 +28,7 @@ from .clean import robust_centroid, unit  # noqa: E402
 
 SMOOTH = 3
 TARGET_MIN_VIDEOS = 2
-FIXED_THRESHOLDS = (0.4, 0.5)
+FIXED_THRESHOLDS = (0.4, 0.5, 0.55)
 
 
 def smooth_by_clip(scores: np.ndarray, clip_ids: np.ndarray) -> np.ndarray:

@@ -8,8 +8,10 @@
 //  * The best-scoring speaker must be on the mute list AND above its threshold to count as a match.
 //    (Non-muted voiceprints compete, so a voice closer to Gašić than to Jovanov never mutes.)
 //  * Mute once the same muted speaker has matched for `muteAfterS` of speech (short heckles pass).
-//  * While muted, unmute after `unmuteAfterS` of speech that is not the muted speaker, but never
-//    sooner than `minHoldS` after muting (avoids music flicker).
+//  * While muted, unmute after `unmuteAfterS` of speech that is not the muted speaker, so a few
+//    words from the chair (a warning, "vreme je") keep the music going.
+//  * Never switch sooner than `minHoldS` after the previous switch, in either direction, so the
+//    music doesn't go on/off/on during quick back-and-forth.
 //  * Silence changes nothing. Any error fails open (unmute).
 
 export interface Params {
@@ -26,9 +28,9 @@ export const DEFAULT_PARAMS: Params = {
   hopS: 0.5,
   smoothN: 3,
   muteAfterS: 2.0,
-  unmuteAfterS: 1.0,
-  minHoldS: 2.0,
-  defaultThreshold: 0.5,
+  unmuteAfterS: 3.0,
+  minHoldS: 5.0,
+  defaultThreshold: 0.55,
   thresholds: {},
 };
 
@@ -56,7 +58,7 @@ export class MuteEngine {
   private candidate: string | null = null;
   private matchRun = 0;
   private otherRun = 0;
-  private mutedAt = -Infinity;
+  private switchedAt = -Infinity;
   private last: Decision | null = null;
 
   constructor(public params: Params, public muteSet: Set<string>) {}
@@ -74,7 +76,7 @@ export class MuteEngine {
     this.muted = false;
     this.target = this.candidate = null;
     this.matchRun = this.otherRun = 0;
-    this.mutedAt = -Infinity;
+    this.switchedAt = -Infinity;
   }
 
   /** Fail open: unmute immediately. */
@@ -118,10 +120,11 @@ export class MuteEngine {
         this.candidate = null;
         this.matchRun = 0;
       }
-      if (this.candidate && this.matchRun >= p.muteAfterS - 1e-9) {
+      const held = o.t - this.switchedAt >= p.minHoldS - 1e-9;
+      if (this.candidate && this.matchRun >= p.muteAfterS - 1e-9 && held) {
         this.muted = true;
         this.target = this.candidate;
-        this.mutedAt = o.t;
+        this.switchedAt = o.t;
         this.otherRun = 0;
         changed = true;
         reason = `mute: ${this.target} matched ${this.matchRun.toFixed(1)}s`;
@@ -136,10 +139,11 @@ export class MuteEngine {
       } else {
         this.otherRun += p.hopS;
         reason = `other speech ${this.otherRun.toFixed(1)}s`;
-        if (this.otherRun >= p.unmuteAfterS - 1e-9 && o.t - this.mutedAt >= p.minHoldS - 1e-9) {
+        if (this.otherRun >= p.unmuteAfterS - 1e-9 && o.t - this.switchedAt >= p.minHoldS - 1e-9) {
           this.muted = false;
           this.target = this.candidate = null;
           this.matchRun = this.otherRun = 0;
+          this.switchedAt = o.t;
           changed = true;
           reason = "unmute: other speaker";
         }

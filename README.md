@@ -6,7 +6,7 @@
 
 Dodatak za Chrome za sve koji gledaju prenos Skupštine na YouTube-u, a ne žele da slušaju baš svakoga. Kad neko od izabranih poslanika uzme reč, dodatak ga prepozna po glasu i umesto njega ti pusti muziku po izboru. Kad on završi, vraća te na prenos i nastavljaš da gledaš kao da ništa nije bilo.
 
-Trenutno prepoznaje: **Aleksandra Vučića, Anu Brnabić i Milenka Jovanova.**
+Trenutno prepoznaje: **Aleksandra Vučića, Anu Brnabić, Milenka Jovanova, Uglješu Mrdića i Marijana Rističevića.**
 
 ## Instalacija
 
@@ -45,4 +45,4 @@ Na snimcima koje nije video tokom učenja, dodatak je ova tri poslanika prepozna
 
 ## Uskoro
 
-Aktivno dodajem glasove novih poslanika, između ostalih **Vojislava Šešelja, Nebojše Bakareca i Marijana Rističevića**.
+Aktivno dodajem glasove novih poslanika, između ostalih **Vojislava Šešelja i Nebojše Bakareca**.

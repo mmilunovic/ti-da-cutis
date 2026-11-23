@@ -5,9 +5,9 @@ var DEFAULT_SETTINGS = {
   // paste a YouTube link in the popup; empty = plain mute
   delay: false,
   debug: true,
-  threshold: 0.4
+  threshold: 0.55
 };
-var SETTINGS_VERSION = 2;
+var SETTINGS_VERSION = 3;
 async function loadSettings() {
   const r = await chrome.storage.local.get(["settings", "settingsVersion"]);
   const s = { ...DEFAULT_SETTINGS, ...r.settings ?? {} };
